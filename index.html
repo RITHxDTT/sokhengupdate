@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SokHeng Phan Wedding Invitation</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* Use min-height to allow scrolling */
+            margin: 0;
+            background-color: #f0f0f0;
+            overflow: auto; /* Allow scrolling */
+        }
+        .centered-box {
+            width: 100%; /* Make the box full width */
+            max-width: 497px; /* Limit the maximum width */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            background-color: lightblue;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px; /* Add some margin for spacing */
+        }
+        .centered-box img {
+            width: 100%; /* Full width */
+            height: auto; /* Maintain aspect ratio */
+            max-height: none; /* Allow the image to grow beyond the box */
+            object-fit: contain; /* Change to contain to allow full visibility */
+        }
+        .overlay {
+            margin-top: 230px;
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 150px;
+            height: auto;
+            top: 50%;
+            left: 50%; /* Center the overlay horizontally */
+            transform: translate(-50%, -50%); /* Center the overlay vertically */
+            z-index: 5; /* Ensure the overlay is above the image */
+            opacity: 0; /* Start hidden */
+            animation: fadeInOut 3s ease-in-out infinite; /* Animation */
+        }
+        @keyframes fadeInOut {
+            
+            20% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1.2); /* Fade in and scale up */
+            }
+            50% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1.1); /* Peak scale */
+            }
+            80% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1.2); /* Scale down slightly */
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -60%) scale(1.1); /* Fade out and scale down */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="centered-box">
+        <img src="pic1.png" alt="Centered Image">
+        <a href="page2.html" class="overlay">
+            <img src="បើកធៀប-01.png" alt="Click Here" width="150">
+        </a>
+    </div>
+</body>
+</html>

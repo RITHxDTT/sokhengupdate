@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Slideshow</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: rgba(0, 0, 0, 0.8);
+            flex-direction: column;
+        }
+        .slideshow-container {
+            position: relative;
+            max-width: 600px;
+            width: 100%;
+        }
+        .slides {
+            display: none;
+            width: 100%;
+        }
+        .active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .prev, .next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(255, 255, 255, 0.5);
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+        .prev { left: 0; }
+        .next { right: 0; }
+        .back-home {
+            margin-top: 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        .back-home img {
+            width: 40px;
+            height: auto;
+        }
+        .footer img {
+            width: 15px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="slideshow-container">
+        <img class="slides active" src="Artboard1.jpg" alt="Slide 1">
+        <img class="slides" src="Artboard2.jpg" alt="Slide 2">
+        <img class="slides" src="Artboard3.jpg" alt="Slide 3">
+        <img class="slides" src="Artboard4.jpg" alt="Slide 4">
+        <img class="slides" src="Artboard5.jpg" alt="Slide 5">
+        
+        <button class="prev" onclick="changeSlide(-1)">&#10094;</button>
+        <button class="next" onclick="changeSlide(1)">&#10095;</button>
+    </div>
+    
+    <button class="back-home" onclick="window.location.href='page2.html'">
+        <img src="image.png" alt="Home">
+    </button>
+    
+    <script>
+        let slideIndex = 0;
+        const slides = document.querySelectorAll(".slides");
+        function changeSlide(n) {
+            slides[slideIndex].classList.remove("active");
+            slideIndex = (slideIndex + n + slides.length) % slides.length;
+            slides[slideIndex].classList.add("active");
+        }
+    </script>
+</body>
+</html>
