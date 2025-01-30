@@ -39,31 +39,30 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            width: 150px;
+            width: 200px;
             height: auto;
             top: 50%;
             left: 50%; /* Center the overlay horizontally */
             transform: translate(-50%, -50%); /* Center the overlay vertically */
             z-index: 5; /* Ensure the overlay is above the image */
-            opacity: 0; /* Start hidden */
-            animation: fadeInOut 3s ease-in-out infinite; /* Animation */
+            opacity: 1; /* Set opacity to 100% */
+            animation: scaleInOut 3s ease-in-out infinite; /* Animation */
         }
-        @keyframes fadeInOut {
-            20% {
-                opacity: 1;
-                transform: translate(-50%, -50%) scale(1.2); /* Fade in and scale up */
+        @keyframes scaleInOut {
+            0% {
+                transform: translate(-50%, -50%) scale(1); /* Initial scale */
+            }
+            25% {
+                transform: translate(-50%, -50%) scale(1.2); /* Scale up */
             }
             50% {
-                opacity: 1;
                 transform: translate(-50%, -50%) scale(1.1); /* Peak scale */
             }
-            80% {
-                opacity: 1;
+            75% {
                 transform: translate(-50%, -50%) scale(1.2); /* Scale down slightly */
             }
             100% {
-                opacity: 0;
-                transform: translate(-50%, -60%) scale(1.1); /* Fade out and scale down */
+                transform: translate(-50%, -50%) scale(1); /* Scale back to normal */
             }
         }
         @media (max-width: 768px) {
