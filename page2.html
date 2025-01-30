@@ -99,6 +99,7 @@
             border-radius: 10px;
             padding: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
         }
         .popup img {
             width: 100%;
@@ -189,7 +190,6 @@
         // Photo Popup Logic
         const images = ["Artboard1.jpg", "Artboard2.jpg", "Artboard3.jpg", "Artboard4.jpg", "Artboard5.jpg"];
         let currentIndex = 0;
-        let slideshowInterval;
         const popup = document.getElementById("popup");
         const popupImg = document.getElementById("popupImg");
         const prevBtn = document.getElementById("prev");
@@ -199,23 +199,20 @@
         document.getElementById("photoIcon").addEventListener("click", () => {
             popup.classList.add("active");
             document.body.style.overflow = "hidden";
-            startSlideshow();
+            popupImg.src = images[currentIndex];
         });
 
         closePopup.addEventListener("click", () => {
             popup.classList.remove("active");
             document.body.style.overflow = "auto";
-            stopSlideshow();
         });
 
         prevBtn.addEventListener("click", () => {
             changeImage(-1);
-            stopSlideshow();
         });
 
         nextBtn.addEventListener("click", () => {
             changeImage(1);
-            stopSlideshow();
         });
 
         function changeImage(step) {
@@ -223,15 +220,22 @@
             popupImg.src = images[currentIndex];
         }
 
-        function startSlideshow() {
-            slideshowInterval = setInterval(() => {
-                changeImage(1);
-            }, 3000);
-        }
+        // Swipe functionality for Photos
+        let touchStartX = 0;
+        let touchEndX = 0;
 
-        function stopSlideshow() {
-            clearInterval(slideshowInterval);
-        }
+        popupImg.addEventListener("touchstart", (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        popupImg.addEventListener("touchend", (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            if (touchEndX < touchStartX) {
+                changeImage(1); // Swipe left (next image)
+            } else if (touchEndX > touchStartX) {
+                changeImage(-1); // Swipe right (previous image)
+            }
+        });
 
         // QR Popup Logic
         const qrImages = ["Qr1.jpg", "Qr2.jpg", "Qr3.jpg"];
@@ -261,6 +265,25 @@
         qrNextBtn.addEventListener("click", () => {
             qrCurrentIndex = (qrCurrentIndex + 1) % qrImages.length;
             qrPopupImg.src = qrImages[qrCurrentIndex];
+        });
+
+        // Swipe functionality for QR
+        let qrTouchStartX = 0;
+        let qrTouchEndX = 0;
+
+        qrPopupImg.addEventListener("touchstart", (e) => {
+            qrTouchStartX = e.changedTouches[0].screenX;
+        });
+
+        qrPopupImg.addEventListener("touchend", (e) => {
+            qrTouchEndX = e.changedTouches[0].screenX;
+            if (qrTouchEndX < qrTouchStartX) {
+                qrCurrentIndex = (qrCurrentIndex + 1) % qrImages.length;
+                qrPopupImg.src = qrImages[qrCurrentIndex]; // Swipe left (next QR)
+            } else if (qrTouchEndX > qrTouchStartX) {
+                qrCurrentIndex = (qrCurrentIndex - 1 + qrImages.length) % qrImages.length;
+                qrPopupImg.src = qrImages[qrCurrentIndex]; // Swipe right (previous QR)
+            }
         });
     </script>
 </body>
