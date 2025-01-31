@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+	<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -25,7 +25,7 @@
             z-index: -1;
         }
         .centered-box {
-            width: 90%;
+            width: 100%;
             max-width: 497px;
             display: flex;
             justify-content: center;
@@ -39,7 +39,7 @@
         }
         .centered-box img {
             width: 100%;
-            max-height: 350px; /* Set a max-height for better proportion */
+            height: auto;
             object-fit: contain;
         }
         .footer {
@@ -47,7 +47,7 @@
             justify-content: space-evenly;
             align-items: center;
             width: 100%;
-            max-width:50px;
+            max-width: 497px;
             position: fixed;
             bottom: 20px;
             left: 50%;
@@ -66,7 +66,7 @@
             height: 50px;
         }
         .footer a:hover {
-            transform: scale(1.2);
+            transform: scale(1.5);
         }
         .footer img {
             width: 40px;
@@ -103,13 +103,7 @@
         }
         .popup img {
             width: 100%;
-            max-height: 400px; /* Set a max-height for the popup images */
             border-radius: 10px;
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out;
-        }
-        .popup img.show {
-            opacity: 1;
         }
         .popup-buttons {
             display: flex;
@@ -172,7 +166,7 @@
     <div class="popup" id="popup">
         <div class="popup-content">
             <button class="close-btn" id="closePopup">X</button>
-            <img src="Artboard1.jpg" id="popupImg" class="show">
+            <img src="Artboard1.jpg" id="popupImg">
             <div class="popup-buttons">
                 <button id="prev">Previous</button>
                 <button id="next">Next</button>
@@ -184,7 +178,7 @@
     <div class="popup" id="qrPopup">
         <div class="popup-content">
             <button class="close-btn" id="closeQrPopup">X</button>
-            <img src="Qr1.jpg" id="qrPopupImg" class="show">
+            <img src="Qr1.jpg" id="qrPopupImg">
             <div class="popup-buttons">
                 <button id="qrPrev">Previous</button>
                 <button id="qrNext">Next</button>
@@ -206,7 +200,6 @@
             popup.classList.add("active");
             document.body.style.overflow = "hidden";
             popupImg.src = images[currentIndex];
-            popupImg.classList.add("show");
         });
 
         closePopup.addEventListener("click", () => {
@@ -223,12 +216,8 @@
         });
 
         function changeImage(step) {
-            popupImg.classList.remove("show");
-            setTimeout(() => {
-                currentIndex = (currentIndex + step + images.length) % images.length;
-                popupImg.src = images[currentIndex];
-                popupImg.classList.add("show");
-            }, 500);
+            currentIndex = (currentIndex + step + images.length) % images.length;
+            popupImg.src = images[currentIndex];
         }
 
         // Swipe functionality for Photos
@@ -261,7 +250,6 @@
             qrPopup.classList.add("active");
             document.body.style.overflow = "hidden";
             qrPopupImg.src = qrImages[qrCurrentIndex];
-            qrPopupImg.classList.add("show");
         });
 
         closeQrPopup.addEventListener("click", () => {
@@ -277,6 +265,25 @@
         qrNextBtn.addEventListener("click", () => {
             qrCurrentIndex = (qrCurrentIndex + 1) % qrImages.length;
             qrPopupImg.src = qrImages[qrCurrentIndex];
+        });
+
+        // Swipe functionality for QR
+        let qrTouchStartX = 0;
+        let qrTouchEndX = 0;
+
+        qrPopupImg.addEventListener("touchstart", (e) => {
+            qrTouchStartX = e.changedTouches[0].screenX;
+        });
+
+        qrPopupImg.addEventListener("touchend", (e) => {
+            qrTouchEndX = e.changedTouches[0].screenX;
+            if (qrTouchEndX < qrTouchStartX) {
+                qrCurrentIndex = (qrCurrentIndex + 1) % qrImages.length;
+                qrPopupImg.src = qrImages[qrCurrentIndex]; // Swipe left (next QR)
+            } else if (qrTouchEndX > qrTouchStartX) {
+                qrCurrentIndex = (qrCurrentIndex - 1 + qrImages.length) % qrImages.length;
+                qrPopupImg.src = qrImages[qrCurrentIndex]; // Swipe right (previous QR)
+            }
         });
     </script>
 </body>
