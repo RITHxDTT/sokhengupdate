@@ -69,18 +69,118 @@
             0% { transform: translateY(0); }
             100% { transform: translateY(-10px); }
         }
+        /* Popup Styles */
+        .popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .popup.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .popup-content {
+            width: 90%;
+            max-width: 400px;
+            background: white;
+            border-radius: 10px;
+            padding: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            position: relative;
+        }
+        .popup img {
+            width: 100%;
+            max-height: 80vh;
+            border-radius: 10px;
+        }
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
     <div class="centered-box">
         <img src="picScroll.jpg" alt="Wedding Image">
     </div>
+
     <div class="footer">
         <a href="index.html"><img src="home.png" alt="Home"></a>
         <a href="https://maps.app.goo.gl/qm6dpwn3LzSeQAUF9?g_st=atm"><img src="location.png" alt="Location"></a>
         <a href="#" id="qrIcon"><img src="QR.png" alt="QR"></a>
         <a href="#" id="photoIcon"><img src="image.png" alt="Photos"></a>
     </div>
+
     <img src="butterfly.gif" alt="Butterfly Animation" class="butterfly">
+
+    <!-- QR Popup -->
+    <div class="popup" id="qrPopup">
+        <div class="popup-content">
+            <button class="close-btn" id="closeQr">X</button>
+            <img src="QR.png" alt="QR Code">
+        </div>
+    </div>
+
+    <!-- Photo Popup -->
+    <div class="popup" id="photoPopup">
+        <div class="popup-content">
+            <button class="close-btn" id="closePhoto">X</button>
+            <img src="Artboard1.jpg" id="photoImg">
+            <div class="popup-buttons">
+                <button id="prevPhoto">Previous</button>
+                <button id="nextPhoto">Next</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // QR Code Popup
+        document.getElementById("qrIcon").addEventListener("click", () => {
+            document.getElementById("qrPopup").classList.add("active");
+        });
+        document.getElementById("closeQr").addEventListener("click", () => {
+            document.getElementById("qrPopup").classList.remove("active");
+        });
+
+        // Photo Gallery Popup
+        const images = ["Artboard1.jpg", "Artboard2.jpg", "Artboard3.jpg"];
+        let currentIndex = 0;
+        const photoPopup = document.getElementById("photoPopup");
+        const photoImg = document.getElementById("photoImg");
+
+        document.getElementById("photoIcon").addEventListener("click", () => {
+            photoPopup.classList.add("active");
+            photoImg.src = images[currentIndex];
+        });
+        document.getElementById("closePhoto").addEventListener("click", () => {
+            photoPopup.classList.remove("active");
+        });
+
+        document.getElementById("prevPhoto").addEventListener("click", () => {
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            photoImg.src = images[currentIndex];
+        });
+        document.getElementById("nextPhoto").addEventListener("click", () => {
+            currentIndex = (currentIndex + 1) % images.length;
+            photoImg.src = images[currentIndex];
+        });
+    </script>
 </body>
 </html>
