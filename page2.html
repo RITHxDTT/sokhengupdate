@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+	<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -37,6 +37,11 @@
             overflow: hidden;
             margin: 20px;
         }
+        .centered-box img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
         .footer {
             display: flex;
             justify-content: space-evenly;
@@ -53,8 +58,20 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             backdrop-filter: blur(10px);
         }
-        .footer.hidden { display: none; }
-        
+        .footer a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 50px;
+            height: 50px;
+        }
+        .footer a:hover {
+            transform: scale(1.5);
+        }
+        .footer img {
+            width: 40px;
+            height: 40px;
+        }
         .popup {
             position: fixed;
             top: 0;
@@ -74,17 +91,51 @@
             opacity: 1;
             visibility: visible;
         }
+        .popup-content {
+            position: relative;
+            width: 80%;
+            max-width: 400px;
+            background: white;
+            border-radius: 10px;
+            padding: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
         .popup img {
             width: 100%;
-            transition: opacity 0.5s ease-in-out;
+            border-radius: 10px;
+        }
+        .popup-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
         }
         .popup-buttons button {
-            background-color: gray;
+            background-color: #007BFF;
             color: white;
             border: none;
             padding: 10px 15px;
             border-radius: 5px;
             cursor: pointer;
+            transition: background 0.3s;
+        }
+        .popup-buttons button:hover {
+            background-color: #0056b3;
+        }
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .close-btn:hover {
+            background: darkred;
         }
     </style>
 </head>
@@ -95,12 +146,23 @@
     </video>
     <div class="centered-box">
         <img src="picSrcoll.jpg" alt="Centered Image">
-        <div class="footer" id="footer">
-            <a href="#" id="qrIcon"><img src="QR.png" alt="QR"></a>
-            <a href="#" id="photoIcon"><img src="image.png" alt="Photos"></a>
+        <div class="footer">
+           <a href="index.html">
+            <img src="home.png" alt="Home"> 
+           </a>
+           <a href="https://maps.app.goo.gl/qm6dpwn3LzSeQAUF9?g_st=atm">
+            <img src="location.png" alt="Location"> 
+           </a>
+           <a href="#" id="qrIcon">
+            <img src="QR.png" alt="QR"> 
+           </a>
+           <a href="#" id="photoIcon">
+            <img src="image.png" alt="Photos">
+           </a>
         </div>
     </div>
-    
+
+    <!-- Popup for Photos -->
     <div class="popup" id="popup">
         <div class="popup-content">
             <button class="close-btn" id="closePopup">X</button>
@@ -111,48 +173,118 @@
             </div>
         </div>
     </div>
-    
+
+    <!-- Popup for QR Codes -->
+    <div class="popup" id="qrPopup">
+        <div class="popup-content">
+            <button class="close-btn" id="closeQrPopup">X</button>
+            <img src="Qr1.jpg" id="qrPopupImg">
+            <div class="popup-buttons">
+                <button id="qrPrev">Previous</button>
+                <button id="qrNext">Next</button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        const images = ["Artboard1.jpg", "Artboard2.jpg", "Artboard3.jpg"];
+        // Photo Popup Logic
+        const images = ["Artboard1.jpg", "Artboard2.jpg", "Artboard3.jpg", "Artboard4.jpg", "Artboard5.jpg"];
         let currentIndex = 0;
         const popup = document.getElementById("popup");
         const popupImg = document.getElementById("popupImg");
         const prevBtn = document.getElementById("prev");
         const nextBtn = document.getElementById("next");
         const closePopup = document.getElementById("closePopup");
-        const footer = document.getElementById("footer");
 
-        function showPopup() {
+        document.getElementById("photoIcon").addEventListener("click", () => {
             popup.classList.add("active");
-            footer.classList.add("hidden");
             document.body.style.overflow = "hidden";
-            popupImg.style.opacity = 0;
-            setTimeout(() => {
-                popupImg.src = images[currentIndex];
-                popupImg.style.opacity = 1;
-            }, 300);
-        }
+            popupImg.src = images[currentIndex];
+        });
 
-        function hidePopup() {
+        closePopup.addEventListener("click", () => {
             popup.classList.remove("active");
-            footer.classList.remove("hidden");
             document.body.style.overflow = "auto";
-        }
+        });
 
-        document.getElementById("photoIcon").addEventListener("click", showPopup);
-        closePopup.addEventListener("click", hidePopup);
+        prevBtn.addEventListener("click", () => {
+            changeImage(-1);
+        });
+
+        nextBtn.addEventListener("click", () => {
+            changeImage(1);
+        });
 
         function changeImage(step) {
-            popupImg.style.opacity = 0;
-            setTimeout(() => {
-                currentIndex = (currentIndex + step + images.length) % images.length;
-                popupImg.src = images[currentIndex];
-                popupImg.style.opacity = 1;
-            }, 300);
+            currentIndex = (currentIndex + step + images.length) % images.length;
+            popupImg.src = images[currentIndex];
         }
 
-        prevBtn.addEventListener("click", () => changeImage(-1));
-        nextBtn.addEventListener("click", () => changeImage(1));
+        // Swipe functionality for Photos
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        popupImg.addEventListener("touchstart", (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        popupImg.addEventListener("touchend", (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            if (touchEndX < touchStartX) {
+                changeImage(1); // Swipe left (next image)
+            } else if (touchEndX > touchStartX) {
+                changeImage(-1); // Swipe right (previous image)
+            }
+        });
+
+        // QR Popup Logic
+        const qrImages = ["Qr1.jpg", "Qr2.jpg", "Qr3.jpg"];
+        let qrCurrentIndex = 0;
+        const qrPopup = document.getElementById("qrPopup");
+        const qrPopupImg = document.getElementById("qrPopupImg");
+        const qrPrevBtn = document.getElementById("qrPrev");
+        const qrNextBtn = document.getElementById("qrNext");
+        const closeQrPopup = document.getElementById("closeQrPopup");
+
+        document.getElementById("qrIcon").addEventListener("click", () => {
+            qrPopup.classList.add("active");
+            document.body.style.overflow = "hidden";
+            qrPopupImg.src = qrImages[qrCurrentIndex];
+        });
+
+        closeQrPopup.addEventListener("click", () => {
+            qrPopup.classList.remove("active");
+            document.body.style.overflow = "auto";
+        });
+
+        qrPrevBtn.addEventListener("click", () => {
+            qrCurrentIndex = (qrCurrentIndex - 1 + qrImages.length) % qrImages.length;
+            qrPopupImg.src = qrImages[qrCurrentIndex];
+        });
+
+        qrNextBtn.addEventListener("click", () => {
+            qrCurrentIndex = (qrCurrentIndex + 1) % qrImages.length;
+            qrPopupImg.src = qrImages[qrCurrentIndex];
+        });
+
+        // Swipe functionality for QR
+        let qrTouchStartX = 0;
+        let qrTouchEndX = 0;
+
+        qrPopupImg.addEventListener("touchstart", (e) => {
+            qrTouchStartX = e.changedTouches[0].screenX;
+        });
+
+        qrPopupImg.addEventListener("touchend", (e) => {
+            qrTouchEndX = e.changedTouches[0].screenX;
+            if (qrTouchEndX < qrTouchStartX) {
+                qrCurrentIndex = (qrCurrentIndex + 1) % qrImages.length;
+                qrPopupImg.src = qrImages[qrCurrentIndex]; // Swipe left (next QR)
+            } else if (qrTouchEndX > qrTouchStartX) {
+                qrCurrentIndex = (qrCurrentIndex - 1 + qrImages.length) % qrImages.length;
+                qrPopupImg.src = qrImages[qrCurrentIndex]; // Swipe right (previous QR)
+            }
+        });
     </script>
 </body>
 </html>
