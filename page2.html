@@ -47,7 +47,7 @@
             justify-content: space-evenly;
             align-items: center;
             width: 100%;
-            max-width: 497px;
+            max-width: 350px;
             position: fixed;
             bottom: 20px;
             left: 50%;
@@ -72,6 +72,24 @@
             width: 40px;
             height: 40px;
         }
+        .frame {
+            position: fixed;
+            bottom: 80px; /* Adjust this value to position the frame above the footer */
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9; /* Ensure it's below the footer */
+            width: 100%; /* Adjust width as needed */
+            max-width: 497px; /* Match the footer's max width */
+        }
+        .frame-image {
+    position: fixed;
+    bottom: 0px; /* Adjust this value if needed */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 490px;
+    z-index: 9;
+}
+
         .popup {
             position: fixed;
             top: 0;
@@ -143,6 +161,34 @@
         .close-btn:hover {
             background: darkred;
         }
+        /* Message Popup Styles */
+        .message-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease-in-out;
+            z-index: 20; /* Ensure it's above other elements */
+        }
+        .message-popup.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .message-content {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
     </style>
 </head>
 <body>
@@ -152,21 +198,27 @@
     </video>
     <div class="centered-box">
         <img src="picSrcoll.gif" alt="Centered Image">
-        <div class="footer">
-           <a href="index.html">
-            <img src="home.png" alt="Home"> 
-           </a>
-           <a href="https://maps.app.goo.gl/qm6dpwn3LzSeQAUF9?g_st=atm">
-            <img src="location.png" alt="Location"> 
-           </a>
-           <a href="#" id="qrIcon">
-            <img src="QR.png" alt="QR"> 
-           </a>
-           <a href="#" id="photoIcon">
-            <img src="image.png" alt="Photos">
-           </a>
-        </div>
     </div>
+
+    <!-- Frame Image -->
+    
+
+    <div class="footer">
+        <a href="index.html">
+           <img src="home.png" alt="Home"> 
+        </a>
+        <a href="https://maps.app.goo.gl/qm6dpwn3LzSeQAUF9?g_st=atm">
+           <img src="location.png" alt="Location"> 
+        </a>
+        <a href="#" id="qrIcon">
+           <img src="QR.png" alt="QR"> 
+        </a>
+        <a href="#" id="photoIcon">
+           <img src="image.png" alt="Photos">
+        </a>
+     </div>
+     <img src="frame.png" class="frame-image" alt="Frame">
+     
 
     <!-- Popup for Photos -->
     <div class="popup" id="popup">
@@ -192,7 +244,23 @@
         </div>
     </div>
 
+    <!-- Message Popup -->
+    <div class="message-popup" id="messagePopup">
+        <div class="message-content">
+            <p>សូមអូស​ចុះក្រោមដើម្បីពិនិត្យមើលបន្ថែម</p>
+        </div>
+    </div>
+
     <script>
+        // Show the message popup
+        const messagePopup = document.getElementById("messagePopup");
+        messagePopup.classList.add("active");
+
+        // Hide the message popup after 3 seconds
+        setTimeout(() => {
+            messagePopup.classList.remove("active");
+        }, 3000);
+
         // Photo Popup Logic
         const images = ["Artboard1.webp", "Artboard2.webP", "Artboard3.webP", "Artboard4.webP", "Artboard5.webP"];
         let currentIndex = 0;
@@ -232,31 +300,13 @@
         });
 
         function changeImage(step) {
-    popupImg.classList.remove("active"); // Start fade-out
-    setTimeout(() => {
-        currentIndex = (currentIndex + step + images.length) % images.length;
-        popupImg.src = images[currentIndex];
-        popupImg.classList.add("active"); // Start fade-in
-    }, 150); // Reduced delay for a smoother transition
-}
-
-
-        // Swipe functionality for Photos
-        let touchStartX = 0;
-        let touchEndX = 0;
-
-        popupImg.addEventListener("touchstart", (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-        });
-
-        popupImg.addEventListener("touchend", (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            if (touchEndX < touchStartX) {
-                changeImage(1); // Swipe left (next image)
-            } else if (touchEndX > touchStartX) {
-                changeImage(-1); // Swipe right (previous image)
-            }
-        });
+            popupImg.classList.remove("active"); // Start fade-out
+            setTimeout(() => {
+                currentIndex = (currentIndex + step + images.length) % images.length;
+                popupImg.src = images[currentIndex];
+                popupImg.classList.add("active"); // Start fade-in
+            }, 150); // Reduced delay for a smoother transition
+        }
 
         // QR Popup Logic
         const qrImages = ["Qr1.webp", "Qr2.webp", "Qr3.webp"];
@@ -297,14 +347,13 @@
         });
 
         function changeQrImage(step) {
-    qrPopupImg.classList.remove("active"); // Start fade-out
-    setTimeout(() => {
-        qrCurrentIndex = (qrCurrentIndex + step + qrImages.length) % qrImages.length;
-        qrPopupImg.src = qrImages[qrCurrentIndex];
-        qrPopupImg.classList.add("active"); // Start fade-in
-    }, 150); // Reduced delay for a smoother transition
-}
-
+            qrPopupImg.classList.remove("active"); // Start fade-out
+            setTimeout(() => {
+                qrCurrentIndex = (qrCurrentIndex + step + qrImages.length) % qrImages.length;
+                qrPopupImg.src = qrImages[qrCurrentIndex];
+                qrPopupImg.classList.add("active"); // Start fade-in
+            }, 150); // Reduced delay for a smoother transition
+        }
 
         // Swipe functionality for QR
         let qrTouchStartX = 0;
