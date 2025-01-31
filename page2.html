@@ -100,10 +100,16 @@
             padding: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
             overflow: hidden;
+            margin-bottom: 50px; /* Add this line */
         }
         .popup img {
             width: 100%;
             border-radius: 10px;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .popup img.active {
+            opacity: 1;
         }
         .popup-buttons {
             display: flex;
@@ -132,7 +138,7 @@
             padding: 5px 10px;
             border-radius: 5px;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: background 0.2s;
         }
         .close-btn:hover {
             background: darkred;
@@ -166,7 +172,7 @@
     <div class="popup" id="popup">
         <div class="popup-content">
             <button class="close-btn" id="closePopup">X</button>
-            <img src="Artboard1.jpg" id="popupImg">
+            <img src="Artboard1.jpg" id="popupImg" class="active">
             <div class="popup-buttons">
                 <button id="prev">Previous</button>
                 <button id="next">Next</button>
@@ -178,7 +184,7 @@
     <div class="popup" id="qrPopup">
         <div class="popup-content">
             <button class="close-btn" id="closeQrPopup">X</button>
-            <img src="Qr1.jpg" id="qrPopupImg">
+            <img src="Qr1.jpg" id="qrPopupImg" class="active">
             <div class="popup-buttons">
                 <button id="qrPrev">Previous</button>
                 <button id="qrNext">Next</button>
@@ -197,14 +203,24 @@
         const closePopup = document.getElementById("closePopup");
 
         document.getElementById("photoIcon").addEventListener("click", () => {
+            // Close QR popup if it's open
+            if (qrPopup.classList.contains("active")) {
+                qrPopup.classList.remove("active");
+                document.body.style.overflow = "auto";
+                qrPopupImg.classList.remove("active"); // Remove fade-in class
+            }
+
+            // Open photo popup
             popup.classList.add("active");
             document.body.style.overflow = "hidden";
             popupImg.src = images[currentIndex];
+            setTimeout(() => popupImg.classList.add("active"), 10); // Trigger fade-in
         });
 
         closePopup.addEventListener("click", () => {
             popup.classList.remove("active");
             document.body.style.overflow = "auto";
+            popupImg.classList.remove("active"); // Remove fade-in class
         });
 
         prevBtn.addEventListener("click", () => {
@@ -216,8 +232,12 @@
         });
 
         function changeImage(step) {
-            currentIndex = (currentIndex + step + images.length) % images.length;
-            popupImg.src = images[currentIndex];
+            popupImg.classList.remove("active"); // Start fade-out
+            setTimeout(() => {
+                currentIndex = (currentIndex + step + images.length) % images.length;
+                popupImg.src = images[currentIndex];
+                popupImg.classList.add("active"); // Start fade-in
+            }, 500); // Wait for fade-out to complete
         }
 
         // Swipe functionality for Photos
@@ -247,25 +267,42 @@
         const closeQrPopup = document.getElementById("closeQrPopup");
 
         document.getElementById("qrIcon").addEventListener("click", () => {
+            // Close photo popup if it's open
+            if (popup.classList.contains("active")) {
+                popup.classList.remove("active");
+                document.body.style.overflow = "auto";
+                popupImg.classList.remove("active"); // Remove fade-in class
+            }
+
+            // Open QR popup
             qrPopup.classList.add("active");
             document.body.style.overflow = "hidden";
             qrPopupImg.src = qrImages[qrCurrentIndex];
+            setTimeout(() => qrPopupImg.classList.add("active"), 10); // Trigger fade-in
         });
 
         closeQrPopup.addEventListener("click", () => {
             qrPopup.classList.remove("active");
             document.body.style.overflow = "auto";
+            qrPopupImg.classList.remove("active"); // Remove fade-in class
         });
 
         qrPrevBtn.addEventListener("click", () => {
-            qrCurrentIndex = (qrCurrentIndex - 1 + qrImages.length) % qrImages.length;
-            qrPopupImg.src = qrImages[qrCurrentIndex];
+            changeQrImage(-1);
         });
 
         qrNextBtn.addEventListener("click", () => {
-            qrCurrentIndex = (qrCurrentIndex + 1) % qrImages.length;
-            qrPopupImg.src = qrImages[qrCurrentIndex];
+            changeQrImage(1);
         });
+
+        function changeQrImage(step) {
+            qrPopupImg.classList.remove("active"); // Start fade-out
+            setTimeout(() => {
+                qrCurrentIndex = (qrCurrentIndex + step + qrImages.length) % qrImages.length;
+                qrPopupImg.src = qrImages[qrCurrentIndex];
+                qrPopupImg.classList.add("active"); // Start fade-in
+            }, 500); // Wait for fade-out to complete
+        }
 
         // Swipe functionality for QR
         let qrTouchStartX = 0;
