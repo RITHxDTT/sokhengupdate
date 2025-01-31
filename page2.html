@@ -232,13 +232,14 @@
         });
 
         function changeImage(step) {
-            popupImg.classList.remove("active"); // Start fade-out
-            setTimeout(() => {
-                currentIndex = (currentIndex + step + images.length) % images.length;
-                popupImg.src = images[currentIndex];
-                popupImg.classList.add("active"); // Start fade-in
-            }, 500); // Wait for fade-out to complete
-        }
+    popupImg.classList.remove("active"); // Start fade-out
+    setTimeout(() => {
+        currentIndex = (currentIndex + step + images.length) % images.length;
+        popupImg.src = images[currentIndex];
+        popupImg.classList.add("active"); // Start fade-in
+    }, 150); // Reduced delay for a smoother transition
+}
+
 
         // Swipe functionality for Photos
         let touchStartX = 0;
@@ -296,13 +297,14 @@
         });
 
         function changeQrImage(step) {
-            qrPopupImg.classList.remove("active"); // Start fade-out
-            setTimeout(() => {
-                qrCurrentIndex = (qrCurrentIndex + step + qrImages.length) % qrImages.length;
-                qrPopupImg.src = qrImages[qrCurrentIndex];
-                qrPopupImg.classList.add("active"); // Start fade-in
-            }, 500); // Wait for fade-out to complete
-        }
+    qrPopupImg.classList.remove("active"); // Start fade-out
+    setTimeout(() => {
+        qrCurrentIndex = (qrCurrentIndex + step + qrImages.length) % qrImages.length;
+        qrPopupImg.src = qrImages[qrCurrentIndex];
+        qrPopupImg.classList.add("active"); // Start fade-in
+    }, 150); // Reduced delay for a smoother transition
+}
+
 
         // Swipe functionality for QR
         let qrTouchStartX = 0;
