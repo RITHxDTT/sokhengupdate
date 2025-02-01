@@ -17,6 +17,7 @@ const popup = document.getElementById("popup");
 const popupImg = document.getElementById("popupImg");
 
 document.getElementById("photoIcon").addEventListener("click", () => {
+    closeQrPopup(); // Close QR popup if it's open
     popup.classList.add("active");
     document.body.style.overflow = "hidden";
     loadImage(currentIndex); // Load the first image
@@ -50,6 +51,7 @@ const qrPopup = document.getElementById("qrPopup");
 const qrPopupImg = document.getElementById("qrPopupImg");
 
 document.getElementById("qrIcon").addEventListener("click", () => {
+    closePhotoPopup(); // Close photo popup if it's open
     qrPopup.classList.add("active");
     document.body.style.overflow = "hidden";
     loadQrImage(qrCurrentIndex); // Load the first QR image
@@ -75,3 +77,15 @@ document.getElementById("qrNext").addEventListener("click", () => {
     qrCurrentIndex = (qrCurrentIndex + 1) % qrImages.length;
     loadQrImage(qrCurrentIndex); // Load the new QR image
 });
+
+// Function to close the photo popup
+function closePhotoPopup() {
+    popup.classList.remove("active");
+    document.body.style.overflow = "auto";
+}
+
+// Function to close the QR popup
+function closeQrPopup() {
+    qrPopup.classList.remove("active");
+    document.body.style.overflow = "auto";
+}
