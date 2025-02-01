@@ -19,7 +19,7 @@ const popupImg = document.getElementById("popupImg");
 document.getElementById("photoIcon").addEventListener("click", () => {
     popup.classList.add("active");
     document.body.style.overflow = "hidden";
-    popupImg.src = images[currentIndex];
+    loadImage(currentIndex); // Load the first image
 });
 
 document.getElementById("closePopup").addEventListener("click", () => {
@@ -27,15 +27,20 @@ document.getElementById("closePopup").addEventListener("click", () => {
     document.body.style.overflow = "auto";
 });
 
+// Function to load the image based on the current index
+function loadImage(index) {
+    popupImg.src = images[index];
+}
+
 // Previous & Next Buttons for Photo Popup
 document.getElementById("prev").addEventListener("click", () => {
     currentIndex = (currentIndex - 1 + images.length) % images.length;
-    popupImg.src = images[currentIndex];
+    loadImage(currentIndex); // Load the new image
 });
 
 document.getElementById("next").addEventListener("click", () => {
     currentIndex = (currentIndex + 1) % images.length;
-    popupImg.src = images[currentIndex];
+    loadImage(currentIndex); // Load the new image
 });
 
 // QR Popup Logic
@@ -47,7 +52,7 @@ const qrPopupImg = document.getElementById("qrPopupImg");
 document.getElementById("qrIcon").addEventListener("click", () => {
     qrPopup.classList.add("active");
     document.body.style.overflow = "hidden";
-    qrPopupImg.src = qrImages[qrCurrentIndex];
+    loadQrImage(qrCurrentIndex); // Load the first QR image
 });
 
 document.getElementById("closeQrPopup").addEventListener("click", () => {
@@ -55,13 +60,18 @@ document.getElementById("closeQrPopup").addEventListener("click", () => {
     document.body.style.overflow = "auto";
 });
 
+// Function to load the QR image based on the current index
+function loadQrImage(index) {
+    qrPopupImg.src = qrImages[index];
+}
+
 // Previous & Next Buttons for QR Popup
 document.getElementById("qrPrev").addEventListener("click", () => {
     qrCurrentIndex = (qrCurrentIndex - 1 + qrImages.length) % qrImages.length;
-    qrPopupImg.src = qrImages[qrCurrentIndex];
+    loadQrImage(qrCurrentIndex); // Load the new QR image
 });
 
 document.getElementById("qrNext").addEventListener("click", () => {
     qrCurrentIndex = (qrCurrentIndex + 1) % qrImages.length;
-    qrPopupImg.src = qrImages[qrCurrentIndex];
+    loadQrImage(qrCurrentIndex); // Load the new QR image
 });
