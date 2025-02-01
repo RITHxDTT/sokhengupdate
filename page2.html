@@ -4,223 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SokHeng Phan Wedding Invitation</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
-            overflow: auto;
-            position: relative;
-        }
-        .background-video {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: -1;
-        }
-        .centered-box {
-            width: 100%;
-            max-width: 497px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            background-color: lightblue;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            border-radius: 10px;
-            overflow: hidden;
-            margin: 20px;
-        }
-        .centered-box img {
-            width: 100%;
-            height: auto;
-            object-fit: contain;
-        }
-        .footer {
-            display: flex;
-            justify-content: space-evenly;
-            align-items: center;
-            width: 100%;
-            max-width: 350px;
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 10;
-            padding: 10px 0;
-            border-radius: 20px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(10px);
-        }
-        .footer a {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 50px;
-            height: 50px;
-        }
-        .footer a:hover {
-            transform: scale(1.5);
-        }
-        .footer img {
-            width: 40px;
-            height: 40px;
-        }
-        .frame {
-            position: fixed;
-            bottom: 80px; /* Adjust this value to position the frame above the footer */
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 9; /* Ensure it's below the footer */
-            width: 100%; /* Adjust width as needed */
-            max-width: 497px; /* Match the footer's max width */
-        }
-        .frame-image {
-    position: fixed;
-    bottom: 0px; /* Adjust this value if needed */
-    left: 50%;
-    transform: translateX(-50%);
-    width: 490px;
-    z-index: 9;
-}
-
-        .popup {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease-in-out;
-        }
-        .popup.active {
-            opacity: 1;
-            visibility: visible;
-        }
-        .popup-content {
-            position: relative;
-            width: 80%;
-            max-width: 400px;
-            background: white;
-            border-radius: 10px;
-            padding: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            overflow: hidden;
-            margin-bottom: 50px; /* Add this line */
-        }
-        .popup img {
-            width: 100%;
-            border-radius: 10px;
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out;
-        }
-        .popup img.active {
-            opacity: 1;
-        }
-        .popup-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 10px;
-        }
-        .popup-buttons button {
-            background-color: #ada3a3;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        .popup-buttons button:hover {
-            background-color: #525050;
-        }
-        .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: red;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        .close-btn:hover {
-            background: darkred;
-        }
-        /* Message Popup Styles */
-        .message-popup {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(82, 82, 82, 0.8);
-            backdrop-filter: blur(10px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.5s ease-in-out;
-            z-index: 20; /* Ensure it's above other elements */
-        }
-        .message-popup.active {
-            opacity: 1;
-            visibility: visible;
-        }
-        .message-content {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-        }
-    </style>
+    <link rel="stylesheet" href="styleSheetPage2.css">
 </head>
 <body>
     <video class="background-video" autoplay loop muted>
         <source src="butterfly.mov" type="video/quicktime">
         Your browser does not support the video tag.
     </video>
+
     <div class="centered-box">
         <img src="picSrcoll.gif" alt="Centered Image">
     </div>
 
-    <!-- Frame Image -->
-    
-
     <div class="footer">
-        <a href="index.html">
-           <img src="home.png" alt="Home"> 
-        </a>
-        <a href="https://maps.app.goo.gl/qm6dpwn3LzSeQAUF9?g_st=atm">
-           <img src="location.png" alt="Location"> 
-        </a>
-        <a href="#" id="qrIcon">
-           <img src="QR.png" alt="QR"> 
-        </a>
-        <a href="#" id="photoIcon">
-           <img src="image.png" alt="Photos">
-        </a>
-     </div>
-     <img src="frame.png" class="frame-image" alt="Frame">
-     
+        <a href="index.html"><img src="home.png" alt="Home"></a>
+        <a href="https://maps.app.goo.gl/qm6dpwn3LzSeQAUF9?g_st=atm"><img src="location.png" alt="Location"></a>
+        <a href="#" id="qrIcon"><img src="QR.png" alt="QR"></a>
+        <a href="#" id="photoIcon"><img src="image.png" alt="Photos"></a>
+    </div>
 
-    <!-- Popup for Photos -->
+    <!-- <img src="frame.png" class="frame-image" alt="Frame"> -->
+
+    <!-- Photo Popup -->
     <div class="popup" id="popup">
         <div class="popup-content">
             <button class="close-btn" id="closePopup">X</button>
@@ -232,7 +37,7 @@
         </div>
     </div>
 
-    <!-- Popup for QR Codes -->
+    <!-- QR Code Popup -->
     <div class="popup" id="qrPopup">
         <div class="popup-content">
             <button class="close-btn" id="closeQrPopup">X</button>
@@ -248,131 +53,10 @@
     <div class="message-popup" id="messagePopup">
         <div class="message-content">
             <p>សូមអូស​ចុះក្រោមដើម្បីពិនិត្យមើលបន្ថែម</p>
+            
         </div>
     </div>
 
-    <script>
-        // Show the message popup
-        const messagePopup = document.getElementById("messagePopup");
-        messagePopup.classList.add("active");
-
-        // Hide the message popup after 3 seconds
-        setTimeout(() => {
-            messagePopup.classList.remove("active");
-        }, 3000);
-
-        // Photo Popup Logic
-        const images = ["Artboard1.webp", "Artboard2.webP", "Artboard3.webP", "Artboard4.webP", "Artboard5.webP"];
-        let currentIndex = 0;
-        const popup = document.getElementById("popup");
-        const popupImg = document.getElementById("popupImg");
-        const prevBtn = document.getElementById("prev");
-        const nextBtn = document.getElementById("next");
-        const closePopup = document.getElementById("closePopup");
-
-        document.getElementById("photoIcon").addEventListener("click", () => {
-            // Close QR popup if it's open
-            if (qrPopup.classList.contains("active")) {
-                qrPopup.classList.remove("active");
-                document.body.style.overflow = "auto";
-                qrPopupImg.classList.remove("active"); // Remove fade-in class
-            }
-
-            // Open photo popup
-            popup.classList.add("active");
-            document.body.style.overflow = "hidden";
-            popupImg.src = images[currentIndex];
-            setTimeout(() => popupImg.classList.add("active"), 10); // Trigger fade-in
-        });
-
-        closePopup.addEventListener("click", () => {
-            popup.classList.remove("active");
-            document.body.style.overflow = "auto";
-            popupImg.classList.remove("active"); // Remove fade-in class
-        });
-
-        prevBtn.addEventListener("click", () => {
-            changeImage(-1);
-        });
-
-        nextBtn.addEventListener("click", () => {
-            changeImage(1);
-        });
-
-        function changeImage(step) {
-            popupImg.classList.remove("active"); // Start fade-out
-            setTimeout(() => {
-                currentIndex = (currentIndex + step + images.length) % images.length;
-                popupImg.src = images[currentIndex];
-                popupImg.classList.add("active"); // Start fade-in
-            }, 150); // Reduced delay for a smoother transition
-        }
-
-        // QR Popup Logic
-        const qrImages = ["Qr1.webp", "Qr2.webp", "Qr3.webp"];
-        let qrCurrentIndex = 0;
-        const qrPopup = document.getElementById("qrPopup");
-        const qrPopupImg = document.getElementById("qrPopupImg");
-        const qrPrevBtn = document.getElementById("qrPrev");
-        const qrNextBtn = document.getElementById("qrNext");
-        const closeQrPopup = document.getElementById("closeQrPopup");
-
-        document.getElementById("qrIcon").addEventListener("click", () => {
-            // Close photo popup if it's open
-            if (popup.classList.contains("active")) {
-                popup.classList.remove("active");
-                document.body.style.overflow = "auto";
-                popupImg.classList.remove("active"); // Remove fade-in class
-            }
-
-            // Open QR popup
-            qrPopup.classList.add("active");
-            document.body.style.overflow = "hidden";
-            qrPopupImg.src = qrImages[qrCurrentIndex];
-            setTimeout(() => qrPopupImg.classList.add("active"), 10); // Trigger fade-in
-        });
-
-        closeQrPopup.addEventListener("click", () => {
-            qrPopup.classList.remove("active");
-            document.body.style.overflow = "auto";
-            qrPopupImg.classList.remove("active"); // Remove fade-in class
-        });
-
-        qrPrevBtn.addEventListener("click", () => {
-            changeQrImage(-1);
-        });
-
-        qrNextBtn.addEventListener("click", () => {
-            changeQrImage(1);
-        });
-
-        function changeQrImage(step) {
-            qrPopupImg.classList.remove("active"); // Start fade-out
-            setTimeout(() => {
-                qrCurrentIndex = (qrCurrentIndex + step + qrImages.length) % qrImages.length;
-                qrPopupImg.src = qrImages[qrCurrentIndex];
-                qrPopupImg.classList.add("active"); // Start fade-in
-            }, 150); // Reduced delay for a smoother transition
-        }
-
-        // Swipe functionality for QR
-        let qrTouchStartX = 0;
-        let qrTouchEndX = 0;
-
-        qrPopupImg.addEventListener("touchstart", (e) => {
-            qrTouchStartX = e.changedTouches[0].screenX;
-        });
-
-        qrPopupImg.addEventListener("touchend", (e) => {
-            qrTouchEndX = e.changedTouches[0].screenX;
-            if (qrTouchEndX < qrTouchStartX) {
-                qrCurrentIndex = (qrCurrentIndex + 1) % qrImages.length;
-                qrPopupImg.src = qrImages[qrCurrentIndex]; // Swipe left (next QR)
-            } else if (qrTouchEndX > qrTouchStartX) {
-                qrCurrentIndex = (qrCurrentIndex - 1 + qrImages.length) % qrImages.length;
-                qrPopupImg.src = qrImages[qrCurrentIndex]; // Swipe right (previous QR)
-            }
-        });
-    </script>
+    <script src="functionPage2.js"></script>
 </body>
 </html>
